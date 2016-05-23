@@ -1,15 +1,10 @@
-using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
-using Template10.Common;
 using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer.ShareTarget;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace ShareTarget
+namespace Template10.Samples.ShareTargetSample
 {
     /// Documentation on APIs used in this page:
     /// https://github.com/Windows-XAML/Template10/wiki
@@ -35,7 +30,9 @@ namespace ShareTarget
             }
             else
             {
-                NavigationService.Navigate(typeof(Views.MainPage));
+                var nav = NavigationService ?? NavigationServiceFactory(BackButton.Attach, ExistingContent.Include);
+                Window.Current.Content = nav.Frame;
+                nav.Navigate(typeof(Views.MainPage));
             }
             return Task.CompletedTask;
         }

@@ -1,13 +1,11 @@
 using System.Collections.Generic;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Template10.Mvvm;
-using Template10.Services.NavigationService;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml.Navigation;
 
-namespace JumpList.ViewModels
+namespace Template10.Samples.JumpListSample.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
@@ -28,7 +26,10 @@ namespace JumpList.ViewModels
 
         public override async Task OnNavigatedToAsync(object parameter, NavigationMode mode, IDictionary<string, object> state)
         {
-            File = await _DataService.GetFileInfoAsync(_SettingService.Recent);
+            if (string.IsNullOrWhiteSpace(parameter as string))
+                File = await _DataService.GetFileInfoAsync(_SettingService.Recent);
+            else
+                File = await _DataService.GetFileInfoAsync(parameter.ToString());
             App.FileReceived += FileReceivedHandler;
         }
 
